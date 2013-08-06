@@ -1,0 +1,15 @@
+[
+ {
+   "repository": "lge-kernel-star",
+   "target_path": "kernel/lge/star"
+ }, {
+   "repository": "android_device_lge_p990",
+   "target_path": "device/device/p990"
+ }, {
+   "repository": "android_device_lge_star-common",
+   "target_path": "device/lge/star-common"
+ }, {
+   "repository": "proprietary_vendor_lge",
+   "target_path": "vendor/lge"
+ }
+]
