@@ -68,8 +68,8 @@ public class LGEInfineon extends RIL implements CommandsInterface {
         // RIL_REQUEST_LGE_SEND_COMMAND
         RILRequest rrLSC = RILRequest.obtain(
                 0x112, null);
-        rrLSC.mp.writeInt(1);
-        rrLSC.mp.writeInt(0);
+        rrLSC.mParcel.writeInt(1);
+        rrLSC.mParcel.writeInt(0);
         send(rrLSC);
 
         // The original (and unmodified) IMEI request
@@ -105,6 +105,68 @@ public class LGEInfineon extends RIL implements CommandsInterface {
 
     static final int RIL_UNSOL_LGE_SIM_STATE_CHANGED = 1060;
     static final int RIL_UNSOL_LGE_SIM_STATE_CHANGED_NEW = 1061;
+    static final int RIL_UNSOL_LGE_XCALLSTAT = 1052;
+    static final int RIL_UNSOL_LGE_UNSOL = 1080;
+    static final int RIL_REQUEST_LGE_SET_CPATH = 252;
+
+    @Override
+    public void
+    queryCallForwardStatus(int cfReason, int serviceClass,
+                String number, Message response) {
+        RILRequest rr
+            = RILRequest.obtain(RIL_REQUEST_QUERY_CALL_FORWARD_STATUS, response);
+
+        rr.mParcel.writeInt(2); // 2 is for query action, not in used anyway
+        rr.mParcel.writeInt(cfReason);
+        rr.mParcel.writeInt(511);
+        rr.mParcel.writeInt(PhoneNumberUtils.toaFromString(number));
+        rr.mParcel.writeString(number);
+        rr.mParcel.writeInt (0);
+
+        if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest)
+                + " " + cfReason + " " + serviceClass);
+
+        send(rr);
+    }
+
+    @Override
+    protected Object
+    responseCallForward(Parcel p) {
+        int numInfos;
+        CallForwardInfo infos[];
+
+        numInfos = p.readInt();
+
+        infos = new CallForwardInfo[numInfos];
+
+        for (int i = 0 ; i < numInfos ; i++) {
+            infos[i] = new CallForwardInfo();
+
+            infos[i].status = p.readInt();
+            infos[i].reason = p.readInt();
+            infos[i].serviceClass = p.readInt();
+            infos[i].toa = p.readInt();
+            infos[i].number = PhoneNumberUtils.stripSeparators(p.readString());
+            infos[i].timeSeconds = p.readInt();
+        }
+
+        return infos;
+    }
+
+    @Override
+    public void
+    setMute (boolean enableMute, Message response) {
+        RILRequest rr
+                = RILRequest.obtain(RIL_REQUEST_LGE_SET_CPATH, response);
+
+        if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest)
+                            + " " + enableMute);
+
+        rr.mParcel.writeInt(1);
+        rr.mParcel.writeInt(enableMute ? 7 : 8);
+
+        send(rr);
+    }
 
     @Override
     protected void
