@@ -29,3 +29,6 @@ TARGET_OTA_ASSERT_DEVICE := p990
 BOARD_RIL_CLASS := ../../../device/lge/p990/ril/
 
 #BOARD_TOUCH_RECOVERY := true
+# Recovery
+TARGET_RECOVERY_FSTAB := device/lge/p990/fstab.star
+RECOVERY_FSTAB_VERSION := 2 

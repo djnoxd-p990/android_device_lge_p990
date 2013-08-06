@@ -11,10 +11,10 @@ $(call inherit-product-if-exists, vendor/lge/p990/p990-vendor.mk)
 # Board-specific init
 PRODUCT_COPY_FILES += \
     device/lge/p990/init.p990.rc:root/init.star.rc \
-    $(LOCAL_PATH)/ueventd.tegra.rc:root/ueventd.star.rc
+    $(LOCAL_PATH)/ueventd.tegra.rc:root/ueventd.star.rc \
+    $(LOCAL_PATH)/fstab.star:root/fstab.star
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/vold.fstab:system/etc/vold.fstab \
     $(LOCAL_PATH)/init.vsnet:system/bin/init.vsnet \
     $(LOCAL_PATH)/init.vsnet-down:system/bin/init.vsnet-down \
     $(LOCAL_PATH)/gps_brcm_conf.xml:system/etc/gps_brcm_conf.xml
