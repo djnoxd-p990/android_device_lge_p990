@@ -29,12 +29,11 @@ PRODUCT_COPY_FILES += \
 # Build kernel module instead of copying
 #PRODUCT_COPY_FILES += \
 #    $(LOCAL_PATH)/prebuilt/wireless.ko:system/lib/modules/wireless.ko
+#LOCAL_KERNEL := device/lge/p990/kernel/zImage
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/check_sdcard.sh:system/bin/check_sdcard.sh \
     $(LOCAL_PATH)/lgdrm.img:system/bin/lgdrm.img
-
-LOCAL_KERNEL := device/lge/p990/kernel/zImage
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel \
